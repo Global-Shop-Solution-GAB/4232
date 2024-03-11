@@ -1,0 +1,352 @@
+Program.Sub.ScreenSU.Start
+Gui.SS_Form1..create
+Gui.SS_Form1..caption("WIP TO FG Work Order Selection")
+Gui.SS_Form1..size(4875,2370)
+Gui.SS_Form1..position(0,0)
+Gui.SS_Form1..forecolor(0)
+Gui.SS_Form1..fontstyle()
+Gui.SS_Form1..BackColor(-2147483633)
+Gui.SS_Form1..maxbutton(False)
+Gui.SS_Form1..minbutton(False)
+Gui.SS_Form1..mousepointer(0)
+Gui.SS_Form1..sizeable(False)
+Gui.SS_Form1..event(UnLoad,ss_form1_unload)
+Gui.SS_Form1..MinX(0)
+Gui.SS_Form1..MinY(0)
+Gui.SS_Form1.lbl_txt_BegWO.create(label,"Beginning Work Order",True,1800,195,1,105,135,True,0,Arial,8,-2147483633,0)
+Gui.SS_Form1.lbl_txt_BegWO.LabelStretch(True)
+Gui.SS_Form1.txt_BegWO.create(textbox,"",True,1155,300,1,135,330,True,0,Arial,8,16777215,1)
+Gui.SS_Form1.txt_BegWO.event(GotFocus,txt_begwo_gotfocus)
+Gui.SS_Form1.txt_BegWO.event(LostFocus,txt_begwo_lostfocus)
+Gui.SS_Form1.txt_BegWO.tabstop(True)
+Gui.SS_Form1.txt_BegWO.tabindex(1)
+Gui.SS_Form1.cmd_txt_BegWO.create(button)
+Gui.SS_Form1.cmd_txt_BegWO.Caption("^")
+Gui.SS_Form1.cmd_txt_BegWO.size(330,330)
+Gui.SS_Form1.cmd_txt_BegWO.position(1830,315)
+Gui.SS_Form1.cmd_txt_BegWO.event(Click,cmd_txt_begwo_click)
+Gui.SS_Form1.cmd_txt_BegWO.tabstop(True)
+Gui.SS_Form1.cmd_txt_BegWO.tabindex(2)
+Gui.SS_Form1.lbl_txt_EndWO.create(label,"Ending Work Order",True,1800,200,1,2455,135,True,0,Arial,8,-2147483633,0)
+Gui.SS_Form1.lbl_txt_EndWO.LabelStretch(True)
+Gui.SS_Form1.txt_EndWO.create(textbox,"",True,1155,300,1,2490,330,True,0,Arial,8,16777215,1)
+Gui.SS_Form1.txt_EndWO.event(GotFocus,txt_endwo_gotfocus)
+Gui.SS_Form1.txt_EndWO.tabstop(True)
+Gui.SS_Form1.txt_EndWO.tabindex(3)
+Gui.SS_Form1.cmd_txt_EndWO.create(button)
+Gui.SS_Form1.cmd_txt_EndWO.Caption("^")
+Gui.SS_Form1.cmd_txt_EndWO.size(330,330)
+Gui.SS_Form1.cmd_txt_EndWO.position(4185,315)
+Gui.SS_Form1.cmd_txt_EndWO.event(Click,cmd_txt_endwo_click)
+Gui.SS_Form1.cmd_txt_EndWO.tabstop(True)
+Gui.SS_Form1.cmd_txt_EndWO.tabindex(4)
+Gui.SS_Form1.cmd_OK.create(button)
+Gui.SS_Form1.cmd_OK.Caption("OK")
+Gui.SS_Form1.cmd_OK.size(1005,360)
+Gui.SS_Form1.cmd_OK.position(105,1275)
+Gui.SS_Form1.cmd_OK.event(Click,cmd_ok_click)
+Gui.SS_Form1.cmd_OK.tabstop(True)
+Gui.SS_Form1.cmd_OK.tabindex(5)
+Gui.SS_Form1.txt_BegSuf.Create(TextBox,"",True,450,300,1,1335,330,True,0,"Arial",8,16777215,1)
+Gui.SS_Form1.txt_BegSuf.TabStop(True)
+Gui.SS_Form1.txt_BegSuf.TabIndex(1)
+Gui.SS_Form1.txt_EndSuf.Create(TextBox,"",True,450,300,1,3705,330,True,0,"Arial",8,16777215,1)
+Gui.SS_Form1.txt_EndSuf.TabStop(True)
+Gui.SS_Form1.txt_EndSuf.TabIndex(1)
+Gui.SS_Form1.lbl1.Create(Label,"Transaction Date",True,1335,255,0,105,720,True,0,"Arial",8,-2147483633,0)
+Gui.SS_Form1.dtpTransDate.Create(DatePicker)
+Gui.SS_Form1.dtpTransDate.Size(1935,285)
+Gui.SS_Form1.dtpTransDate.Position(135,915)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+
+Gui.SS_Form1..Show
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Main.End
+
+Program.Sub.SS_Form1_UnLoad.Start
+F.Intrinsic.Control.SetErrorHandler("SS_Form1_UnLoad_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.ODBC.Connection!con.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("SS_Form1_UnLoad_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End
+
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.SS_Form1_UnLoad.End
+
+Program.Sub.txt_BegWO_GotFocus.Start
+F.Intrinsic.Control.SetErrorHandler("txt_BegWO_GotFocus_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+Gui.SS_Form1.txt_BegWO.SelectAll
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("txt_BegWO_GotFocus_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.txt_BegWO_GotFocus.End
+
+Program.Sub.txt_BegWO_LostFocus.Start
+F.Intrinsic.Control.SetErrorHandler("txt_BegWO_LostFocus_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+Gui.SS_Form1.txt_EndWO.Text(V.Screen.SS_Form1!txt_BegWO.Text)
+gui.SS_Form1.txt_BegSuf.Text("")
+gui.SS_Form1.txt_EndSuf.Text("")
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("txt_BegWO_LostFocus_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.txt_BegWO_LostFocus.End
+
+Program.Sub.cmd_txt_BegWO_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmd_txt_BegWO_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sRet.Declare(String)
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+
+F.Intrinsic.UI.Browser(1000,"",V.Local.sRet)
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	Gui.SS_Form1.txt_BegWO.Text(V.Local.sRet(0).Trim)
+	gui.SS_Form1.txt_BegSuf.Text(v.Local.sRet(1).Trim)
+	Gui.SS_Form1.txt_EndWO.Text(V.Screen.SS_Form1!txt_BegWO.Text)
+	gui.SS_Form1.txt_EndSuf.Text(v.Screen.SS_Form1!txt_BegSuf.Text)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmd_txt_BegWO_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.cmd_txt_BegWO_Click.End
+
+Program.Sub.txt_EndWO_GotFocus.Start
+F.Intrinsic.Control.SetErrorHandler("txt_EndWO_GotFocus_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+Gui.SS_Form1.txt_EndWO.SelectAll
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("txt_EndWO_GotFocus_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.txt_EndWO_GotFocus.End
+
+Program.Sub.cmd_txt_EndWO_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmd_txt_EndWO_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sRet.Declare(String)
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+
+F.Intrinsic.UI.Browser(1000,"",V.Local.sRet)
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	Gui.SS_Form1.txt_EndWO.Text(V.Local.sRet(0).Trim)
+	gui.SS_Form1.txt_EndSuf.Text(v.Local.sRet(1).Trim)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmd_txt_EndWO_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.cmd_txt_EndWO_Click.End
+
+Program.Sub.cmd_OK_Click.Start
+F.Intrinsic.Control.SetErrorHandler("cmd_OK_Click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.i.Declare(Long)
+V.Local.sMsg.Declare(String)
+V.Local.sParams.Declare(String)
+V.Local.sDate.Declare(String)
+V.Local.sErrorMsg.Declare(String)
+V.Local.iE.Declare(Long)
+V.Local.sTemp.Declare(String)
+V.Local.fQty.Declare(Float)
+v.Local.sJobSuf_Beg.Declare(String)
+v.Local.sJobSuf_End.Declare(String)
+V.Local.iYear.Declare(Long)
+V.Local.iMonth.Declare(Long)
+V.Local.iDay.Declare(Long)
+V.Local.sParamNames.Declare(String)
+V.Local.sParamValues.Declare(String)
+
+'two variables to contain "JOB-SUFFIX" for range selection
+f.Intrinsic.String.Build("{0}-{1}",v.Screen.SS_Form1!txt_BegWO.Text,v.Screen.SS_Form1!txt_BegSuf.Text,v.Local.sJobSuf_Beg)
+f.Intrinsic.String.Build("{0}-{1}",v.Screen.SS_Form1!txt_EndWO.Text,v.Screen.SS_Form1!txt_EndSuf.Text,v.Local.sJobSuf_End)
+
+'Set the Year, month, and day values for the transaction date
+F.Intrinsic.Date.Year(V.Screen.SS_Form1!dtpTransDate.Value,V.Local.iYear)
+F.Intrinsic.Date.Month(V.Screen.SS_Form1!dtpTransDate.Value,V.Local.iMonth)
+F.Intrinsic.Date.Day(V.Screen.SS_Form1!dtpTransDate.Value,V.Local.iDay)
+
+'getting all wo that will be WIPed and saving to datatable
+F.Intrinsic.String.Build("Select Job, Suffix, Qty_Completed From V_Job_Header Where RTrim(Job)+'-'+RTrim(Suffix) between '{0}' and '{1}' and Date_Closed = '1900-01-01' Order by Job,Suffix",v.Local.sJobSuf_Beg,v.Local.sJobSuf_End,V.Local.sSql)
+
+F.Data.DataTable.CreateFromSQL("WIP","con",V.Local.sSql,True)
+
+F.Intrinsic.Control.If(V.DataTable.WIP.Rowcount--,=,-1)
+	F.Intrinsic.UI.Msgbox("All Workorders selected are already closed.")
+	F.Data.DataTable.Close("WIP")
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+'Looping Through datatable and calling callwrapper 2003
+F.Intrinsic.Control.For(V.Local.i,0,V.DataTable.WIP.Rowcount--,1)
+	F.Intrinsic.String.Build("Processing Working Order: {0} Suffix: {1}",V.DataTable.WIP(V.Local.i).Job!FieldValTrim,V.DataTable.WIP(V.Local.i).Suffix!FieldValTrim,V.Local.sMsg)
+	F.Intrinsic.UI.InvokeWaitDialog(V.Local.sMsg)
+	'callwrapper Mode 2003 - WIP to Finished Goods - JB0052GI
+	'Parameters: CMPNY,TRMNL,CALLING-PGM,MODE "NS": screenless mode, PASS-DTL-JOB^,PASS-DTL-SUFFIX^,PASS-DTL-SEQ^,PASS-DTL-FILL^,PASS-DTL-DATE^,PASS-DTL-KEY-SEQ^
+	'WO*,WO-SUFFIX*,TRANSFER-DATE-YEAR*#,TRANSFER-DATE-MONTH*#,TRANSFER-DATE-DAY*#,(CLOSE-WORK-ORDER-FLAG*,"Y": Close work order,"N": Do not close work order)
+	'PART-DESC*#, QUANTITY*, COST*,PRICE*,(PRINT-LABELS-FLAG*,"Y": Print labels,"N": Do not print labels)
+	'(COST-METHOD*,"E": Estimate,"P": Percentage,"I": Inventory,"L": Alt Cost,"A": Actual,"R": Remaining,"U": Entered)
+	'(UPDATE-INVENTORY-FLAG*,"Y": Update inventory,"N": Do not update inventory),INVENTORY-DEBIT-ACCOUNT*
+	'FILENAME* A fully qualified path to a tab delimited file (each column separated by a tab, each row separated by a new line). 
+	'Each row should have the following columns: Lot,Bin,Heat,Serial,Quantity,Expiration Date,Warranty Months,User Field 1,User Field 2,User Field 3,User Field 4,User Field 5,User Field 6,User Field 7,User Field 8,User Field 9
+	
+	'No filename is needed since the customer does not use lot/bin information.
+ 	'The close WO flag will always be Y.
+ 	'This will need to be run in screenless mode.
+
+	F.Intrinsic.String.Build("{0}!*!{1}!*!{2}!*!NS!*!!*!!*!!*!!*!!*!!*!",V.Caller.CompanyCode,V.Caller.Terminal,V.Caller.Caller,V.Local.sParams)
+	F.Intrinsic.String.Build("{0}{1}!*!{2}!*!{3}!*!{4}!*!{5}!*!Y!*!!*!{6}!*!!*!!*!",V.Local.sParams,V.DataTable.WIP(V.Local.i).Job!FieldValTrim,V.DataTable.WIP(V.Local.i).Suffix!FieldValTrim,V.Local.iYear,V.Local.iMonth,V.Local.iDay,V.DataTable.WIP(V.Local.i).Qty_Completed!FieldValTrim,V.Local.sParams)
+	F.Intrinsic.String.Build("{0}Y!*!!*!Y!*!!*!",V.Local.sParams,V.Local.sParams)
+	
+	F.Global.General.CallWrapperSync(2003,V.Local.sParams)
+
+	'FEQ Modification to make error messaging faster
+'	F.Intrinsic.String.Split(V.Ambient.CallwrapperReturn, "ERROR-MESSAGE::", V.Local.sErrorMsg)
+'	F.Intrinsic.String.Split(V.Local.sErrorMsg(1), "*", V.Local.sError)
+'	F.Intrinsic.Control.If(V.Local.sError.Length, >, 0)
+'		F.Intrinsic.String.Build("Error processing Work Order: {0}-{1}. {2}Error Message: {3}",V.DataTable.WIP(V.Local.i).Job!FieldValTrim,V.DataTable.WIP(V.Local.i).Suffix!FieldValTrim, V.Ambient.NewLine, V.Local.sError, V.Local.sErrorMsg)
+'		F.Intrinsic.UI.Msgbox(V.Local.sErrorMsg, "WIP to FG error")
+'	F.Intrinsic.Control.EndIf
+
+'	F.Intrinsic.Control.If(V.Ambient.CallWrapperReturn,<>,"")
+'		F.Intrinsic.String.Split(V.Ambient.CallWrapperReturn,"*!*",V.Local.sErrorMsg)
+'		F.Intrinsic.Control.For(V.Local.iE,0,V.Local.sErrorMsg.UBound,1)
+'			F.Intrinsic.String.Left(V.Local.sErrorMsg(V.Local.iE),13,V.Local.sTemp)
+'			F.Intrinsic.Control.If(V.Local.sTemp.UCase,=,"ERROR-MESSAGE")
+'				F.Intrinsic.String.Split(V.Local.sErrorMsg(V.Local.iE),"::",V.Local.sErrorMsg)
+'				F.Intrinsic.Control.If(V.Local.sErrorMsg(1).Length,>,0)
+'					F.Intrinsic.String.Build("{0}: {1}",V.Local.sErrorMsg(0),V.Local.sErrorMsg(1),V.Local.sErrorMsg)
+'					F.Intrinsic.UI.Msgbox(V.Local.sErrorMsg)
+'					F.Intrinsic.Control.ExitFor(V.Local.iE)
+'				F.Intrinsic.Control.EndIf
+'			F.Intrinsic.Control.EndIf
+'		F.Intrinsic.Control.Next(V.Local.iE)
+'	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.i)
+
+F.Intrinsic.UI.CloseWaitDialog
+
+F.Data.DataTable.Close("WIP")
+
+F.Intrinsic.UI.Msgbox("Would you like to close anymore Work Orders?","WIP to FG",4,V.Local.iE)
+F.Intrinsic.Control.If(V.Local.iE,=,7)
+	F.Global.General.CallWrapperSync(50,"JB0057/C")
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmd_OK_Click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4232_WIPToFG_WORange.g2u",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.cmd_OK_Click.End
+
+Program.Sub.Comments.Start
+${$0$}$$}$RLK$}$11/22/2016 10:44:33 AM$}$False
+Program.Sub.Comments.End
+
+Program.Sub.ScreenSS.Start
+SS_Form1{{CAPTION::WIP TO FG Work Order Selection
+SS_Form1.CTRL{{NAME::txt_BegWO\\TYPE::2\\CAPTION::Beginning Work Order\\TABSTOP::1\\GROUP::1\\BROWSER::1\\SIZE::1
+SS_Form1.CTRL{{NAME::txt_EndWO\\TYPE::2\\CAPTION::Ending Work Order\\TABSTOP::2\\GROUP::1\\BROWSER::1\\SIZE::1
+SS_Form1.CTRL{{NAME::cmd_OK\\TYPE::5\\CAPTION::OK\\TABSTOP::3\\GROUP::-1\\BROWSER::0\\SIZE::1
+
+Program.Sub.ScreenSS.End
